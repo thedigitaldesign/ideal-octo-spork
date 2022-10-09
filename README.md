@@ -2,13 +2,23 @@
 
 Per the instructions in the email, this should be feature complete per the requirements.
 
-The project was created using Svelte/Kit and TailwindCSS.
+The project was created using [`Svelte`](https://svelte.dev/) and [`SvelteKit`](https://kit.svelte.dev/) with [`TailwindCSS`](https://tailwindcss.com/).
 
 [`Deployed project`](https://ideal-octo-spork.vercel.app/)
 
-## Running the code locally
+## Install
 
-To create a production version of your app:
+npm
+```
+npm i
+```
+
+yarn
+```
+yarn
+```
+
+## Running the code locally
 
 npm
 ```
