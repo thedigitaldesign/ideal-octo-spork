@@ -33,9 +33,15 @@
     alert(`Download now! \n${message}`)
   }
 
+  const clear = () => {
+    if (selected.length === data.length) {
+      selected = []
+    }
+  }
+
   $: {
     indeterminate = selected.length > 0 && selected.length < data.length
-    checked = checked && !indeterminate
+    checked = (checked && !indeterminate) || selected.length === data.length
     disable = selected.length > 0 && !selected.some((item) => item.status === 'scheduled')
   }
 </script>
@@ -51,7 +57,14 @@
       <thead>
         <tr>
           <th style="text-align: center;">
-            <input type="checkbox" class="checkbox" bind:checked bind:indeterminate on:change={() => (selected = checked ? data.map((item) => item) : [])} />
+            <input
+              type="checkbox"
+              class="checkbox"
+              bind:checked
+              bind:indeterminate
+              on:change={() => (selected = checked ? data.map((item) => item) : [])}
+              on:click={clear}
+            />
           </th>
           <th>
             {#if selected.length}
@@ -81,7 +94,7 @@
         </tr>
         <tr>
           <th><!-- Checkbox --></th>
-          <th scope="col" class="min-w-[10rem]">Name</th>
+          <th scope="col" class="min-w-[9.75rem]">Name</th>
           <th scope="col">Device</th>
           <th scope="col" class="min-w-[12rem]">Path</th>
           <th><!-- Indicator --></th>
@@ -94,7 +107,12 @@
             <td class="relative w-12 px-6 text-center">
               <div class="selected-row-indicator w-[0.15rem] {selected.includes(item) ? 'bg-sky-300' : ''}" />
 
-              <input type="checkbox" class="checkbox" value={item} bind:group={selected} />
+              <input 
+                type="checkbox" 
+                class="checkbox" 
+                value={item} 
+                bind:group={selected} 
+              />
             </td>
             <td>{item.name}</td>
             <td>{item.device}</td>
@@ -151,6 +169,6 @@
   }
 
   .checkbox {
-    @apply h-4 w-4 rounded border-gray-300 text-sky-500 focus:ring-sky-400;
+    @apply h-4 w-4 rounded border-gray-300 text-sky-500 focus:ring-transparent;
   }
 </style>
