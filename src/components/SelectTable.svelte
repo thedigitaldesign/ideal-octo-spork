@@ -42,17 +42,31 @@
 
 <template>
   <div>
+    {#if explosion}
+      <div>
+        <div class="max-w-7xl m-auto" use:confetti />
+      </div>
+    {/if}
     <table>
       <thead>
         <tr>
-          <th>
+          <th style="text-align: center;">
             <input type="checkbox" class="checkbox" bind:checked bind:indeterminate on:change={() => (selected = checked ? data.map((item) => item) : [])} />
           </th>
           <th>
-            Selected {selected.length}
+            {#if selected.length}
+              Selected {selected.length}
+            {:else}
+              None Selected
+            {/if}
           </th>
           <th colspan="4">
-            <button type="button" disabled={!disable} on:click={downloadSelected}>
+            <button
+              type="button"
+              class="inline-flex items-center justify-center ease-in-out duration-200 enabled:hover:bg-gray-100 disabled:text-gray-400"
+              disabled={!disable}
+              on:click={downloadSelected}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mr-2">
                 <path
                   d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z"
@@ -67,7 +81,7 @@
         </tr>
         <tr>
           <th><!-- Checkbox --></th>
-          <th scope="col" class="min-w-[8rem]">Name</th>
+          <th scope="col" class="min-w-[10rem]">Name</th>
           <th scope="col">Device</th>
           <th scope="col" class="min-w-[12rem]">Path</th>
           <th><!-- Indicator --></th>
@@ -77,7 +91,7 @@
       <tbody>
         {#each data as item}
           <tr class:bg-gray-50={selected.includes(item)}>
-            <td class="relative w-12 px-6">
+            <td class="relative w-12 px-6 text-center">
               <div class="selected-row-indicator w-[0.15rem] {selected.includes(item) ? 'bg-sky-300' : ''}" />
 
               <input type="checkbox" class="checkbox" value={item} bind:group={selected} />
@@ -90,7 +104,7 @@
                 <div class="availability-indicator" />
               {/if}
             </td>
-            <td>{item.status}</td>
+            <td class="capitalize">{item.status}</td>
           </tr>
         {/each}
       </tbody>
@@ -132,11 +146,11 @@
   }
 
   .availability-indicator {
-    @apply rounded-full bg-green-600 w-4 h-4 border-solid border-2 border-green-300 m-auto;
+    @apply rounded-full bg-green-500 w-4 h-4 border-solid border-2 border-green-300 m-auto;
     box-shadow: 0 0 4px rgb(74, 222, 128);
   }
 
   .checkbox {
-    @apply -mt-2 h-4 w-4 rounded border-gray-300 text-sky-500 focus:ring-sky-400;
+    @apply h-4 w-4 rounded border-gray-300 text-sky-500 focus:ring-sky-400;
   }
 </style>
